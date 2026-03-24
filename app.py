@@ -166,13 +166,17 @@ def segment():
     if not allowed_file(file.filename):
         return jsonify({'error': 'Unsupported file type. Use PNG, JPG, TIFF, or BMP.'}), 400
 
-    file_bytes = np.frombuffer(file.read(), np.uint8)
+    file_stream = file.read()
+    file_bytes = np.frombuffer(file_stream, np.uint8)
     img_bgr = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+
     if img_bgr is None:
         return jsonify({'error': 'Could not decode image'}), 400
 
     image = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    image = image.astype(np.float32)
+    image = np.clip(image, 0, 255)
+    gray = cv2.cvtColor(image.astype(np.uint8), cv2.COLOR_RGB2GRAY)
 
     n_nests = int(request.form.get('n_nests', 25))
     n_iter = int(request.form.get('n_iter', 50))
@@ -188,11 +192,11 @@ def segment():
     overlay = image.copy()
     overlay[water_mask > 0] = (overlay[water_mask > 0] * 0.4 + np.array([0, 120, 220]) * 0.6).clip(0, 255).astype(np.uint8)
 
-    stats = compute_stats(image, water_mask)
+    stats = compute_stats(image.astype(np.uint8), water_mask)
     stats['optimal_thresholds'] = {'water_index': int(T_wi), 'texture': int(T_tex)}
 
     return jsonify({
-        'original': array_to_b64(image),
+        'original': array_to_b64(image.astype(np.uint8)),
         'water_index': array_to_b64(wi, cmap='Blues'),
         'water_mask': array_to_b64(water_mask, cmap='Greens'),
         'overlay': array_to_b64(overlay),
