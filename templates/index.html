@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaLens — Waterbody Segmentation AI</title>
+  <meta name="description" content="AI-powered satellite waterbody segmentation using Adaptive Cuckoo Search algorithm. Upload satellite imagery to detect and analyze water bodies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <div class="bg-scene">
+    <div class="bg-img"></div>
+    <div class="bg-overlay"></div>
+    <div class="ripple" style="--d:0s; --x:20%; --y:30%; --s:500px"></div>
+    <div class="ripple" style="--d:2s; --x:70%; --y:60%; --s:700px"></div>
+    <div class="ripple" style="--d:4s; --x:45%; --y:80%; --s:400px"></div>
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <nav class="glass-nav" id="main-nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">AquaLens</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#upload-section" class="nav-link">Analyze</a></li>
+        <li><a href="#how-it-works" class="nav-link">Algorithm</a></li>
+        <li><a href="#results-section" class="nav-link">Results</a></li>
+      </ul>
+      <a href="#upload-section" class="btn-glass btn-nav-cta" id="nav-analyze-btn">Start Analysis</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Adaptive Cuckoo Search Algorithm
+      </div>
+      <h1 class="hero-title">
+        DETECT<br/>
+        <em class="hero-title-italic">WATER</em><br/>
+        FROM SPACE
+      </h1>
+      <p class="hero-subtitle">
+        AI-powered satellite image analysis to identify and measure waterbodies with precision using bio-inspired optimization.
+      </p>
+      <div class="hero-actions">
+        <a href="#upload-section" class="btn-primary" id="hero-cta-btn">
+          <span>Analyze Image</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#how-it-works" class="btn-glass">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-num">ACS</span>
+          <span class="stat-label">Algorithm</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">2D</span>
+          <span class="stat-label">Optimization</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">Real-time</span>
+          <span class="stat-label">Processing</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-arrow"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <section class="section how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Methodology</span>
+        <h2 class="section-title">How the Algorithm Works</h2>
+        <p class="section-desc">A multi-stage bio-inspired pipeline for precise waterbody detection</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card glass-card" data-step="01">
+          <div class="step-icon">🛰️</div>
+          <h3>Water Index</h3>
+          <p>Computes a spectral Water Index from Blue and Red channels (B−R)/(B+R) to highlight water pixels against land.</p>
+        </div>
+        <div class="step-card glass-card" data-step="02">
+          <div class="step-icon">🧩</div>
+          <h3>Texture Mapping</h3>
+          <p>Generates a local variance texture map to distinguish smooth water surfaces from complex terrain features.</p>
+        </div>
+        <div class="step-card glass-card" data-step="03">
+          <div class="step-icon">🦅</div>
+          <h3>Cuckoo Search</h3>
+          <p>Adaptive Cuckoo Search (ACS) runs 2D optimization over threshold pairs, maximizing inter-class variance with spatial scoring.</p>
+        </div>
+        <div class="step-card glass-card" data-step="04">
+          <div class="step-icon">✨</div>
+          <h3>Post-Processing</h3>
+          <p>Morphological closing fills gaps, then small spurious components below 500px² are removed for a clean mask.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section upload-section" id="upload-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Analysis</span>
+        <h2 class="section-title">Upload Satellite Image</h2>
+        <p class="section-desc">Supports PNG, JPG, TIFF, BMP — satellite or aerial imagery works best</p>
+      </div>
+
+      <div class="upload-layout">
+        <div class="dropzone-wrapper">
+          <div class="dropzone glass-card" id="dropzone" tabindex="0" aria-label="Image upload drop zone">
+            <div class="dz-icon">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p class="dz-title">Drop your satellite image here</p>
+            <p class="dz-sub">or <label for="file-input" class="dz-link">browse files</label></p>
+            <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.tiff,.bmp,.webp" hidden aria-label="File input" />
+            <p class="dz-formats">PNG · JPG · TIFF · BMP · WEBP</p>
+            <div class="dz-preview" id="dz-preview" hidden>
+              <img id="preview-img" src="" alt="Preview" />
+              <div class="dz-preview-info">
+                <span id="preview-name"></span>
+                <button class="dz-remove" id="remove-file" aria-label="Remove file">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="params-card glass-card">
+          <h3 class="params-title">Algorithm Parameters</h3>
+          <div class="param-group">
+            <label for="n-nests">
+              Nest Count
+              <span class="param-val" id="nests-val">25</span>
+            </label>
+            <input type="range" id="n-nests" min="10" max="100" value="25" class="slider" aria-label="Number of nests" />
+            <div class="param-hint">Number of candidate solutions in each generation</div>
+          </div>
+          <div class="param-group">
+            <label for="n-iter">
+              Iterations
+              <span class="param-val" id="iter-val">50</span>
+            </label>
+            <input type="range" id="n-iter" min="10" max="200" value="50" class="slider" aria-label="Number of iterations" />
+            <div class="param-hint">Optimization steps — more = precise, slower</div>
+          </div>
+          <div class="param-group">
+            <label for="pa-val">
+              Discovery Rate (pₐ)
+              <span class="param-val" id="pa-display">0.25</span>
+            </label>
+            <input type="range" id="pa-val" min="0.05" max="0.6" step="0.05" value="0.25" class="slider" aria-label="Discovery rate" />
+            <div class="param-hint">Probability of abandoning a poor solution</div>
+          </div>
+
+          <button class="btn-primary btn-full" id="analyze-btn" disabled aria-label="Run segmentation">
+            <span class="btn-label">Select an Image First</span>
+            <div class="btn-spinner" hidden>
+              <div class="spinner"></div>
+            </div>
+          </button>
+
+          <div class="param-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Higher iterations improve accuracy but increase processing time
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="progress-overlay" id="progress-overlay" hidden>
+    <div class="progress-card glass-card">
+      <div class="progress-icon">
+        <div class="sonar-ring"></div>
+        <div class="sonar-ring" style="animation-delay:0.5s"></div>
+        <div class="sonar-ring" style="animation-delay:1s"></div>
+        <div class="sonar-dot">◈</div>
+      </div>
+      <h3 class="progress-title">Analyzing Waterbodies</h3>
+      <p class="progress-sub" id="progress-msg">Running Adaptive Cuckoo Search…</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section results-section" id="results-section" hidden>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Output</span>
+        <h2 class="section-title">Segmentation Results</h2>
+      </div>
+
+      <div class="stats-strip" id="stats-strip"></div>
+
+      <div class="results-grid" id="results-grid">
+        <div class="result-card glass-card">
+          <div class="result-label">Original Image</div>
+          <img id="res-original" class="result-img" src="" alt="Original satellite image" />
+        </div>
+        <div class="result-card glass-card">
+          <div class="result-label">Water Index Map</div>
+          <img id="res-wi" class="result-img" src="" alt="Water index map" />
+        </div>
+        <div class="result-card glass-card">
+          <div class="result-label">Water Mask</div>
+          <img id="res-mask" class="result-img" src="" alt="Binary water mask" />
+        </div>
+        <div class="result-card glass-card result-card-wide">
+          <div class="result-label">Segmentation Overlay</div>
+          <img id="res-overlay" class="result-img" src="" alt="Overlay image with water highlighted" />
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-glass" id="download-btn" aria-label="Download overlay image">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Overlay
+        </button>
+        <button class="btn-glass" id="reset-btn" aria-label="Analyze new image">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          Analyze New Image
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer glass-nav">
+    <div class="footer-inner">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">AquaLens</span>
+      </div>
+      <p class="footer-copy">Waterbody Segmentation via Adaptive Cuckoo Search · Built with Flask &amp; OpenCV</p>
+    </div>
+  </footer>
+
+  <script src="/static/main.js"></script>
+</body>
+</html>
