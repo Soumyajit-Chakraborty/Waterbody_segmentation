@@ -1,0 +1,6 @@
+flask==3.0.0
+gunicorn==21.2.0
+numpy==1.26.4
+opencv-python-headless==4.8.1.78
+matplotlib==3.7.5
+pillow==10.3.0
